@@ -90,3 +90,47 @@ val a2=quickSort[Int](menorQue)
 comparar[Int](a1,a2,lista)
 
 lis==lista
+
+//---------------------------------------------------------actualizacion 3/17/2024
+def menoresQue_noMenoresQue[T](l : List [T] , v:T, comparador:(T,T)=>Boolean): (List [T] , List [T] , Int) = {
+   def aux(l:List[T],l1:List[T],l2:List[T]):(List [T] , List [T] , Int) ={
+      if(l.isEmpty|| l.tail.isEmpty)(l1,l2,0)
+      
+      else if(comparador(l.tail.head,v)){
+         
+         val(l_me,l_ma,v1)=aux(l.tail,l.tail.head::l1,l2)
+         (l_me,l_ma,v1+1)
+
+      }else{
+         
+         val(l_me,l_ma,v1)=aux(l.tail,l1,l.tail.head::l2)
+         (l_me,l_ma,v1+1)
+      }
+   }
+   aux(l,List(),List(v))
+     
+}
+
+def quickSort[T](comp:(T,T)=>Boolean): List[T]=>(List[T],Int) = {
+   def quick(l:List[T]):(List[T],Int)={
+      def aux(l:List[T],l2:List[T]):(List[T],Int)={
+
+         if(l.isEmpty)(l,0)
+         else if(l==l2){
+            (l,1)
+         }
+         else{
+         val (l1,l2,v1)=menoresQue_noMenoresQue(l,l.head,comp)
+         val(l3,v2)=aux(l1,l)
+         val(l4,v3)=aux(l2,l)
+         (l3++l4,v1+v3+v2)
+         
+         
+         }
+      }
+      
+         
+      aux(l,List())  
+      }
+quick
+}
